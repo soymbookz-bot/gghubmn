@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<!-- saved from url=(0037)https://gghubmn.netlify.app/#products -->
+<html lang="mn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GG Hub — Gaming gear shop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+<link href="./GG Hub — Gaming gear shop_files/css2" rel="stylesheet">
+<style>
+  :root{
+    --bg:#050507;
+    --bg2:#0a0e16;
+    --panel:#0c111c;
+    --neon:#2dffa3;
+    --blue:#00d4ff;
+    --accent:#00e5d0;
+    --text:#f5f9ff;
+    --muted:#8a8aa0;
+    --line:rgba(45,255,163,.16);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Rajdhani',sans-serif;font-weight:500;
+    background:var(--bg);
+    color:var(--text);
+    overflow-x:hidden;
+    line-height:1.6;
+  }
+  body.no-scroll{overflow:hidden}
+  h1,h2,h3,.brand,.nav a,.btn{font-family:'Orbitron',sans-serif}h1,h2,h3{text-transform:uppercase;letter-spacing:1px}.price,.total b,.count,.spec,.spec *{font-family:'IBM Plex Mono',monospace;letter-spacing:-.3px}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1240px;margin:0 auto;padding:0 20px}
+
+  /* ---------- atmosphere ---------- */
+  body::before{
+    content:"";position:fixed;inset:0;z-index:-2;
+    background:
+      radial-gradient(900px 500px at 80% -10%,rgba(0,212,255,.10),transparent 60%),
+      radial-gradient(800px 500px at 0% 110%,rgba(0,229,208,.08),transparent 60%),
+      linear-gradient(180deg,#050507,#06080f 40%,#050507);
+  }
+  body::after{
+    content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.6;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:54px 54px;
+    mask-image:radial-gradient(ellipse 80% 60% at 50% 20%,#000,transparent 90%);
+  }
+
+  /* ---------- header ---------- */
+  header{
+    position:sticky;top:0;z-index:100;
+    backdrop-filter:blur(14px);
+    background:rgba(10,10,18,.72);
+    border-bottom:1px solid var(--line);
+  }
+  .bar{display:flex;align-items:center;justify-content:space-between;height:72px}
+  .brand{display:flex;align-items:center;gap:10px;font-size:1.5rem;font-weight:900;letter-spacing:3px;text-shadow:0 0 18px rgba(45,255,163,.55)}
+  .brand .gg{
+    color:var(--bg);background:linear-gradient(135deg,var(--neon),var(--blue));
+    padding:2px 10px;border-radius:3px;box-shadow:0 0 28px rgba(45,255,163,.75);
+  }
+  .brand svg{filter:drop-shadow(0 0 6px var(--blue))}
+  .nav{display:flex;align-items:center;gap:28px}
+  .nav a{font-size:.82rem;letter-spacing:1px;text-transform:uppercase;color:var(--muted);position:relative;transition:color .25s}
+  .nav a::after{content:"";position:absolute;left:0;bottom:-6px;width:0;height:2px;background:var(--neon);box-shadow:0 0 8px var(--neon);transition:width .25s}
+  .nav a:hover{color:#fff}
+  .nav a:hover::after{width:100%}
+  .cart-btn{
+    position:relative;background:transparent;border:1px solid var(--line);
+    color:var(--text);width:46px;height:46px;border-radius:3px;cursor:pointer;
+    display:grid;place-items:center;transition:.25s;
+  }
+  .cart-btn:hover{border-color:var(--neon);box-shadow:0 0 16px rgba(45,255,163,.35);color:var(--neon)}
+  .count{
+    position:absolute;top:-8px;right:-8px;min-width:22px;height:22px;padding:0 5px;
+    background:var(--accent);color:#fff;border-radius:2px;font-size:.7rem;font-weight:700;
+    display:grid;place-items:center;font-family:'Orbitron';box-shadow:0 0 12px var(--accent);
+    transform:scale(0);transition:transform .25s cubic-bezier(.34,1.56,.64,1);
+  }
+  .count.show{transform:scale(1)}
+  .burger{display:none;background:none;border:none;color:#fff;font-size:1.6rem;cursor:pointer}
+
+  /* ---------- hero slider ---------- */
+  .hero{position:relative;height:min(82vh,640px);overflow:hidden;border-bottom:1px solid var(--line)}
+  .slides{height:100%}
+  .slide{
+    position:absolute;inset:0;display:flex;align-items:center;
+    opacity:0;transform:scale(1.06);transition:opacity .9s ease,transform 6s ease;
+  }
+  .slide.active{opacity:1;transform:scale(1)}
+  .slide .glow{position:absolute;inset:0;z-index:0}
+  .slide.s1 .glow{background:radial-gradient(600px 380px at 70% 50%,rgba(45,255,163,.18),transparent 65%)}
+  .slide.s2 .glow{background:radial-gradient(600px 380px at 30% 40%,rgba(0,212,255,.20),transparent 65%)}
+  .slide.s3 .glow{background:radial-gradient(600px 380px at 60% 60%,rgba(0,229,208,.16),transparent 65%)}
+  .hero-inner{position:relative;z-index:2;max-width:720px}
+  .tag{
+    display:inline-block;font-family:'Orbitron';font-size:.72rem;letter-spacing:3px;text-transform:uppercase;
+    color:var(--neon);border:1px solid rgba(45,255,163,.4);padding:6px 14px;border-radius:4px;margin-bottom:22px;
+  }
+  .hero h1{
+    font-size:clamp(2.1rem,6vw,4rem);line-height:1.05;font-weight:900;
+    text-shadow:0 0 40px rgba(45,255,163,.45);
+  }
+  .hero h1 span{background:linear-gradient(135deg,var(--neon),var(--blue));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero p{color:var(--muted);font-size:1.05rem;margin:18px 0 30px;max-width:520px}
+  .reveal>*{opacity:0;transform:translateY(28px);animation:rise .8s forwards}
+  .reveal>*:nth-child(1){animation-delay:.1s}
+  .reveal>*:nth-child(2){animation-delay:.25s}
+  .reveal>*:nth-child(3){animation-delay:.4s}
+  .reveal>*:nth-child(4){animation-delay:.55s}
+  @keyframes rise{to{opacity:1;transform:none}}
+
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;cursor:pointer;
+    font-size:.85rem;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;
+    padding:15px 30px;border-radius:3px;border:none;
+    background:linear-gradient(135deg,var(--neon),var(--blue));color:#04140d;
+    box-shadow:0 0 24px rgba(45,255,163,.35);transition:.3s;
+  }
+  .btn:hover{transform:translateY(-3px);box-shadow:0 8px 34px rgba(45,255,163,.55)}
+  .btn.ghost{background:transparent;border:1px solid var(--line);color:var(--text);box-shadow:none}
+  .btn.ghost:hover{border-color:var(--blue);color:var(--blue);box-shadow:0 0 18px rgba(0,212,255,.3)}
+
+  .dots{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);z-index:5;display:flex;gap:10px}
+  .dots button{width:30px;height:5px;border-radius:3px;border:none;background:rgba(255,255,255,.2);cursor:pointer;transition:.3s}
+  .dots button.active{background:var(--neon);box-shadow:0 0 10px var(--neon);width:44px}
+
+  /* ---------- sections ---------- */
+  section{padding:80px 0}
+  .head{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:42px;flex-wrap:wrap}
+  .head h2{font-size:clamp(1.6rem,4vw,2.4rem);font-weight:900}
+  .head h2 i{font-style:normal;color:var(--neon)}
+  .head p{color:var(--muted);font-size:.9rem;max-width:420px}
+
+  /* ---------- card grid ---------- */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:24px}
+  .card{
+    background:linear-gradient(160deg,var(--panel),#0e0e1c);
+    border:1px solid var(--line);border-radius:4px;overflow:hidden;
+    transition:transform .35s,box-shadow .35s,border-color .35s;position:relative;
+  }
+  .card:hover{transform:translateY(-10px);border-color:rgba(45,255,163,.5);box-shadow:0 18px 50px rgba(0,0,0,.6),0 0 30px rgba(45,255,163,.12)}
+  .price{font-size:1.15rem;font-weight:700;color:var(--neon)}
+  .add{
+    background:rgba(0,212,255,.08);border:1px solid var(--line);color:var(--text);
+    font-family:'Orbitron';font-size:.7rem;letter-spacing:1px;text-transform:uppercase;
+    padding:11px 16px;border-radius:3px;cursor:pointer;transition:.25s;white-space:nowrap;
+  }
+  .add:hover{background:var(--neon);color:#04140d;border-color:var(--neon);box-shadow:0 0 18px rgba(45,255,163,.5)}
+  .add:active{transform:scale(.94)}
+
+  /* ---------- cart sidebar ---------- */
+  .overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(2px);opacity:0;visibility:hidden;transition:.35s;z-index:200}
+  .overlay.open{opacity:1;visibility:visible}
+  .cart{
+    position:fixed;top:0;right:0;height:100%;width:min(420px,100%);z-index:300;
+    background:linear-gradient(160deg,#12122a,#0a0a14);border-left:1px solid var(--line);
+    transform:translateX(100%);transition:transform .4s cubic-bezier(.5,0,.2,1);
+    display:flex;flex-direction:column;box-shadow:-20px 0 60px rgba(0,0,0,.7);
+  }
+  .cart.open{transform:none}
+  .cart-head{display:flex;align-items:center;justify-content:space-between;padding:24px;border-bottom:1px solid var(--line)}
+  .cart-head h3{font-size:1.2rem;font-weight:900}
+  .cart-head h3 b{color:var(--neon)}
+  .close{background:none;border:1px solid var(--line);color:var(--text);width:38px;height:38px;border-radius:3px;cursor:pointer;font-size:1.1rem;transition:.25s}
+  .close:hover{border-color:var(--accent);color:var(--accent)}
+  .items{flex:1;overflow-y:auto;padding:18px 24px;display:flex;flex-direction:column;gap:14px}
+  .items::-webkit-scrollbar{width:6px}
+  .items::-webkit-scrollbar-thumb{background:var(--line);border-radius:3px}
+  .empty{text-align:center;color:var(--muted);margin-top:60px;font-size:.95rem}
+  .empty svg{opacity:.4;margin-bottom:14px}
+  .ci{display:flex;gap:14px;background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:3px;padding:12px;animation:rise .35s}
+  .ci .mini{width:60px;height:60px;border-radius:3px;flex-shrink:0;display:grid;place-items:center;font-size:30px}
+  .ci-info{flex:1;min-width:0}
+  .ci-info h4{font-size:.9rem;font-weight:700;font-family:'Rajdhani',sans-serif}
+  .ci-info .p{color:var(--neon);font-family:'Orbitron';font-size:.85rem;margin-top:2px}
+  .qty{display:flex;align-items:center;gap:10px;margin-top:8px}
+  .qty button{width:26px;height:26px;border-radius:2px;border:1px solid var(--line);background:transparent;color:var(--text);cursor:pointer;font-size:1rem;line-height:1;transition:.2s}
+  .qty button:hover{border-color:var(--neon);color:var(--neon)}
+  .qty span{font-family:'Orbitron';font-size:.85rem;min-width:20px;text-align:center}
+  .rm{margin-left:auto;background:none;border:none;color:var(--muted);cursor:pointer;font-size:.75rem;transition:.2s;align-self:flex-start}
+  .rm:hover{color:var(--accent)}
+  .cart-foot{padding:22px 24px;border-top:1px solid var(--line)}
+  .total{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;font-family:'Orbitron'}
+  .total b{font-size:1.4rem;color:var(--neon)}
+  .checkout{width:100%;justify-content:center}
+
+  /* ---------- footer ---------- */
+  footer{border-top:1px solid var(--line);padding:60px 0 30px;background:#08080f}
+  .fgrid{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:40px;margin-bottom:40px}
+  footer h4{font-family:'Orbitron';font-size:.85rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:18px;color:#fff}
+  footer p,footer li{color:var(--muted);font-size:.88rem;margin-bottom:8px;list-style:none}
+  .socials{display:flex;gap:12px;margin-top:16px}
+  .socials a{width:42px;height:42px;border-radius:2px;border:1px solid var(--line);display:grid;place-items:center;color:var(--muted);transition:.25s}
+  .socials a:hover{color:var(--neon);border-color:var(--neon);transform:translateY(-3px);box-shadow:0 0 16px rgba(45,255,163,.35)}
+  .copy{text-align:center;color:var(--muted);font-size:.8rem;padding-top:26px;border-top:1px solid var(--line)}
+  .copy b{color:var(--neon);font-family:'Orbitron'}
+
+  /* ========== IRON-MAN FX (neon theme) ========== */
+  body{cursor:none}
+  /* custom cursor */
+  #cursor{
+    position:fixed;width:22px;height:22px;border:2px solid var(--neon);border-radius:50%;
+    pointer-events:none;z-index:9999;transform:translate(-50%,-50%);
+    transition:width .15s,height .15s,border-color .15s,background .15s;mix-blend-mode:screen;
+  }
+  #cursor-dot{
+    position:fixed;width:5px;height:5px;background:var(--blue);border-radius:50%;
+    pointer-events:none;z-index:9999;transform:translate(-50%,-50%);box-shadow:0 0 10px var(--blue);
+  }
+  /* scanlines */
+  #scanlines{
+    position:fixed;inset:0;pointer-events:none;z-index:9000;opacity:.25;
+    background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.10) 2px,rgba(0,0,0,.10) 4px);
+  }
+  /* floating particles */
+  #particles{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+  .particle{position:absolute;width:2px;height:2px;border-radius:50%;background:var(--neon);animation:particle-float linear infinite;opacity:0}
+  @keyframes particle-float{
+    0%{opacity:0;transform:translateY(100vh) translateX(0)}
+    10%{opacity:.6}90%{opacity:.3}
+    100%{opacity:0;transform:translateY(-100px) translateX(var(--dx))}
+  }
+  /* JARVIS HUD overlay */
+  #hud{position:fixed;inset:0;pointer-events:none;z-index:90}
+  .hud-corner{position:absolute;width:54px;height:54px;border-color:rgba(45,255,163,.30);border-style:solid}
+  .hud-corner.tl{top:88px;left:16px;border-width:2px 0 0 2px}
+  .hud-corner.tr{top:88px;right:16px;border-width:2px 2px 0 0}
+  .hud-corner.bl{bottom:16px;left:16px;border-width:0 0 2px 2px}
+  .hud-corner.br{bottom:16px;right:16px;border-width:0 2px 2px 0}
+  .hud-data{position:absolute;font-family:'IBM Plex Mono',monospace;font-size:9px;color:rgba(45,255,163,.40);letter-spacing:.12em;line-height:1.9}
+  .hud-data.d-tl{top:96px;left:80px}
+  .hud-data.d-br{bottom:24px;right:80px;text-align:right}
+  /* scroll reveal */
+  .grid{perspective:900px}
+  .fx-reveal{opacity:0;transform:translateY(28px);transition:opacity .6s ease,transform .6s ease}
+  .fx-reveal.shown{opacity:1;transform:none}
+  .fx-fade{opacity:0;transition:opacity .6s ease}
+  .fx-fade.shown{opacity:1}
+  @media(prefers-reduced-motion:reduce){
+    .particle,.fx-reveal,.fx-fade{animation:none!important;transition:none!important;opacity:1!important;transform:none!important}
+  }
+
+  /* ---------- arsenal cards ---------- */
+  .head .kicker{display:block;font-family:'IBM Plex Mono',monospace;font-size:.68rem;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:10px}
+  .arsenal-card{padding:30px 26px;display:flex;flex-direction:column}
+  .card-armor-line{position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--neon),var(--blue),transparent);transform:scaleX(0);transition:transform .4s;z-index:4}
+  .card:hover .card-armor-line{transform:scaleX(1)}
+  .card-icon{font-size:44px;margin-bottom:18px;display:block;filter:drop-shadow(0 0 12px rgba(45,255,163,.45))}
+  .card-tag{font-family:'IBM Plex Mono',monospace;font-size:.62rem;color:var(--blue);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
+  .card-name{font-family:'Orbitron',sans-serif;font-size:1.25rem;font-weight:800;letter-spacing:.5px;text-transform:uppercase;margin-bottom:10px}
+  .card-desc{font-size:.9rem;color:var(--muted);line-height:1.6;margin-bottom:18px}
+  .card-spec{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+  .spec-item{display:flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--muted)}
+  .spec-item::before{content:'\25b8';color:var(--neon);font-size:.7rem}
+  .brand-line{font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--blue);letter-spacing:.4px;opacity:.85;margin-bottom:18px}
+  .arsenal-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:auto}
+
+  /* ---------- responsive ---------- */
+  @media(max-width:780px){
+    .nav{position:fixed;inset:72px 0 auto 0;flex-direction:column;background:rgba(10,10,18,.97);padding:24px;gap:18px;border-bottom:1px solid var(--line);transform:translateY(-130%);transition:transform .35s;backdrop-filter:blur(14px)}
+    .nav.open{transform:none}
+    .nav a{font-size:1rem}
+    .burger{display:block}
+    .fgrid{grid-template-columns:1fr;gap:30px}
+    .hero{height:auto;padding:90px 0}
+    .slide{position:relative}
+    .slide:not(.active){display:none}
+    body{cursor:auto}
+    #cursor,#cursor-dot,#hud{display:none}
+    .hud-data{display:none}
+  }
+</style>
+<style id="claude-agent-animation-styles">
+      @keyframes claude-pulse {
+        0%, 100% { opacity: 0.6; }
+        50% { opacity: 1; }
+      }
+      #claude-agent-glow-border-inner {
+        animation: claude-pulse 2s ease-in-out infinite;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        #claude-agent-glow-border-inner {
+          animation: none;
+        }
+      }
+    </style></head>
+<body class="">
+
+<!-- IRON-MAN FX LAYERS -->
+<div id="cursor" style="left: 803px; top: 69px; border-color: var(--neon);"></div>
+<div id="cursor-dot" style="left: 803px; top: 69px;"></div>
+<div id="scanlines"></div>
+<div id="particles"><div class="particle" style="left: 42.9288vw; animation-duration: 14.0314s; animation-delay: 5.18578s; --dx: -77.38547484774327px; background: var(--blue); height: 2.19336px; width: 2.19336px;"></div><div class="particle" style="left: 68.5401vw; animation-duration: 10.997s; animation-delay: 6.38132s; --dx: 48.28127610975574px; background: var(--neon); height: 1.74114px; width: 1.74114px;"></div><div class="particle" style="left: 94.84vw; animation-duration: 16.3691s; animation-delay: 9.27365s; --dx: -9.620527304149064px; background: var(--blue); height: 2.11759px; width: 2.11759px;"></div><div class="particle" style="left: 57.7011vw; animation-duration: 12.5202s; animation-delay: 0.763964s; --dx: -79.57178197493695px; background: var(--blue); height: 1.13836px; width: 1.13836px;"></div><div class="particle" style="left: 65.6114vw; animation-duration: 17.9557s; animation-delay: 2.56268s; --dx: -47.73952462349451px; background: var(--blue); height: 1.52026px; width: 1.52026px;"></div><div class="particle" style="left: 93.6153vw; animation-duration: 12.8407s; animation-delay: 6.88717s; --dx: -76.2638591921138px; background: var(--neon); height: 2.60691px; width: 2.60691px;"></div><div class="particle" style="left: 46.7571vw; animation-duration: 15.1254s; animation-delay: 8.85686s; --dx: -16.94685798759754px; background: var(--blue); height: 2.22799px; width: 2.22799px;"></div><div class="particle" style="left: 36.0905vw; animation-duration: 18.7541s; animation-delay: 0.514163s; --dx: 59.14632308581213px; background: var(--blue); height: 1.70465px; width: 1.70465px;"></div><div class="particle" style="left: 14.499vw; animation-duration: 20.8224s; animation-delay: 3.31757s; --dx: -25.71117035736681px; background: var(--neon); height: 2.2868px; width: 2.2868px;"></div><div class="particle" style="left: 84.4911vw; animation-duration: 16.0981s; animation-delay: 0.589687s; --dx: -73.84781285566771px; background: var(--blue); height: 2.60194px; width: 2.60194px;"></div><div class="particle" style="left: 63.8227vw; animation-duration: 16.9923s; animation-delay: 7.4138s; --dx: -61.305255258641324px; background: var(--neon); height: 1.87257px; width: 1.87257px;"></div><div class="particle" style="left: 67.3244vw; animation-duration: 20.8306s; animation-delay: 1.50113s; --dx: -84.35399970936675px; background: var(--neon); height: 1.3356px; width: 1.3356px;"></div><div class="particle" style="left: 47.8759vw; animation-duration: 16.5163s; animation-delay: 7.25022s; --dx: 42.89015030801272px; background: var(--neon); height: 1.80234px; width: 1.80234px;"></div><div class="particle" style="left: 22.4145vw; animation-duration: 19.8028s; animation-delay: 8.57467s; --dx: 36.225214081523404px; background: var(--neon); height: 1.79482px; width: 1.79482px;"></div><div class="particle" style="left: 9.30335vw; animation-duration: 19.3547s; animation-delay: 10.5123s; --dx: 34.34885310903118px; background: var(--blue); height: 1.60437px; width: 1.60437px;"></div><div class="particle" style="left: 93.1263vw; animation-duration: 11.9743s; animation-delay: 6.91355s; --dx: 17.00035601366035px; background: var(--neon); height: 2.88365px; width: 2.88365px;"></div><div class="particle" style="left: 3.401vw; animation-duration: 10.9532s; animation-delay: 0.00331843s; --dx: -34.22898320396426px; background: var(--neon); height: 1.78543px; width: 1.78543px;"></div><div class="particle" style="left: 4.46414vw; animation-duration: 14.713s; animation-delay: 8.59752s; --dx: 75.94401176575673px; background: var(--blue); height: 2.37121px; width: 2.37121px;"></div><div class="particle" style="left: 48.4312vw; animation-duration: 18.4377s; animation-delay: 9.15315s; --dx: 69.08372997210788px; background: var(--blue); height: 1.1298px; width: 1.1298px;"></div><div class="particle" style="left: 70.3506vw; animation-duration: 7.42172s; animation-delay: 4.44739s; --dx: -19.68380954246298px; background: var(--neon); height: 1.602px; width: 1.602px;"></div><div class="particle" style="left: 64.1789vw; animation-duration: 13.2572s; animation-delay: 10.7803s; --dx: -40.10684277415748px; background: var(--neon); height: 2.55076px; width: 2.55076px;"></div><div class="particle" style="left: 96.6678vw; animation-duration: 15.3489s; animation-delay: 1.98052s; --dx: -30.16972623274789px; background: var(--neon); height: 1.34072px; width: 1.34072px;"></div><div class="particle" style="left: 79.44vw; animation-duration: 17.0143s; animation-delay: 0.0575056s; --dx: -91.17595569095033px; background: var(--neon); height: 1.28432px; width: 1.28432px;"></div><div class="particle" style="left: 24.8153vw; animation-duration: 9.30579s; animation-delay: 9.46088s; --dx: 91.67278129762411px; background: var(--neon); height: 1.05893px; width: 1.05893px;"></div><div class="particle" style="left: 3.13157vw; animation-duration: 14.5799s; animation-delay: 9.62535s; --dx: -30.20379505390578px; background: var(--neon); height: 1.51213px; width: 1.51213px;"></div><div class="particle" style="left: 73.1026vw; animation-duration: 9.12856s; animation-delay: 2.68682s; --dx: 65.28717889300711px; background: var(--neon); height: 2.08343px; width: 2.08343px;"></div><div class="particle" style="left: 43.0083vw; animation-duration: 20.1399s; animation-delay: 11.6413s; --dx: 26.810934230808513px; background: var(--neon); height: 1.08021px; width: 1.08021px;"></div><div class="particle" style="left: 96.0577vw; animation-duration: 14.4339s; animation-delay: 10.9479s; --dx: -33.408285269223015px; background: var(--neon); height: 2.64429px; width: 2.64429px;"></div></div>
+<div id="hud">
+  <div class="hud-corner tl"></div>
+  <div class="hud-corner tr"></div>
+  <div class="hud-corner bl"></div>
+  <div class="hud-corner br"></div>
+  <div class="hud-data d-tl" id="hudSys">SYS: ONLINE<br>POWER: 98.6%<br>GG-HUB: MK-VII</div>
+  <div class="hud-data d-br" id="hudTime">JARVIS v9.3.1<br>03:45:24</div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="wrap bar">
+    <a href="https://gghubmn.netlify.app/#top" class="brand">
+      <span class="gg">GGHUB</span>
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#00d4ff" stroke-width="1.6"><rect x="2" y="7" width="20" height="11" rx="5.5"></rect><line x1="7" y1="11" x2="7" y2="14"></line><line x1="5.5" y1="12.5" x2="8.5" y2="12.5"></line><circle cx="16" cy="11.5" r="1"></circle><circle cx="18.5" cy="13.5" r="1"></circle></svg>
+      SHOP
+    </a>
+    <nav class="nav" id="nav">
+      <a href="https://gghubmn.netlify.app/#products">Arsenal</a>
+      <a href="https://gghubmn.netlify.app/#contact">Холбогдох</a>
+    </nav>
+    <div style="display:flex;align-items:center;gap:14px">
+      <button class="cart-btn" id="openCart" aria-label="Сагс">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="9" cy="20" r="1.4"></circle><circle cx="18" cy="20" r="1.4"></circle><path d="M2 3h2.5l2.3 12.5a1.5 1.5 0 0 0 1.5 1.2h8.6a1.5 1.5 0 0 0 1.5-1.2L21 7H6"></path></svg>
+        <span class="count" id="count">0</span>
+      </button>
+      <button class="burger" id="burger" aria-label="Цэс">☰</button>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="top" style="padding:0">
+  <div class="slides">
+    <div class="slide s1">
+      <div class="glow"></div>
+      <div class="wrap hero-inner reveal" style="">
+        <span class="tag">★ Gaming gear shop</span>
+        <h1>Шинэ <span>Зэвсэгээ</span> аваад ялалтаа мэдэр!</h1>
+        <p>Хурд, нарийвчлал, загвар — бүгд нэг дор.</p>
+        <a href="https://gghubmn.netlify.app/#products" class="btn">Дэлгүүр харах →</a>
+      </div>
+    </div>
+    <div class="slide s2 active">
+      <div class="glow"></div>
+      <div class="wrap hero-inner reveal" style="">
+        <span class="tag">⚡ Шинэ ирэлт</span>
+        <h1>Боломжийн <span>Yнэ</span> Чанартай gear</h1>
+        <p> Setup-aa upgrade хийгээд өрсөлдөгчдөө буулгаж ав</p>
+        <a href="https://gghubmn.netlify.app/#products" class="btn">Үзэх →</a>
+      </div>
+    </div>
+    <div class="slide s3">
+      <div class="glow"></div>
+      <div class="wrap hero-inner reveal" style="">
+        <span class="tag">🔥 Хямдрал</span>
+        <h1>Онцгой <span>хямдрал</span> 30% хYртэл</h1>
+        <p>Хугацаат хямдрал🤑‼️ Та яараарай.</p>
+        <a href="https://gghubmn.netlify.app/#products" class="btn">Үзэх →</a>
+      </div>
+    </div>
+  </div>
+  <div class="dots" id="dots"><button class=""></button><button class="active"></button><button class=""></button></div>
+</section>
+
+<!-- ARSENAL -->
+<section id="products">
+  <div class="wrap">
+    <div class="head fx-reveal shown">
+      <div>
+        <span class="kicker"></span>
+        <h2>БYтээгдэхYYн</h2>
+      </div>
+      <p></p>
+    </div>
+    <div class="grid" id="arsenalGrid">
+  <div class="card arsenal-card fx-fade shown" style="transition-delay: 0s;">
+    <div class="card-armor-line"></div>
+    <span class="card-icon">🖱️</span>
+    <div class="card-tag">// PRIMARY WEAPON</div>
+    <div class="card-name">Gaming Mouse</div>
+    <div class="card-desc">Нарийн мэдрэмж, хурдан click — aim чинь хэзээ ч алдагдахгүй. Repulsor blast шиг нарийн.</div>
+    <div class="card-spec">
+      <div class="spec-item">25,600 DPI Max Sensor</div><div class="spec-item">2000Hz Polling Rate</div><div class="spec-item">Wireless + Wired</div><div class="spec-item">61g Ultra Light</div>
+    </div>
+    <div class="brand-line">Logitech · Razer · Pulsar</div>
+    <div class="arsenal-foot">
+      <span class="price">350,000₮</span>
+      <button class="add" data-id="1">Сагслах</button>
+    </div>
+  </div>
+  <div class="card arsenal-card fx-fade shown" style="transition-delay: 0.06s;">
+    <div class="card-armor-line"></div>
+    <span class="card-icon">⌨️</span>
+    <div class="card-tag">// BATTLE INTERFACE</div>
+    <div class="card-name">Keyboard</div>
+    <div class="card-desc">Mechanical switch бүрийн click — armor сегмент lock хийх мэт тодорхой мэдрэмж.</div>
+    <div class="card-spec">
+      <div class="spec-item">Mechanical Switches</div><div class="spec-item">TKL / Full Size</div><div class="spec-item">RGB Backlighting</div><div class="spec-item">Anti-Ghosting</div>
+    </div>
+    <div class="brand-line">SteelSeries · HyperX · Corsair</div>
+    <div class="arsenal-foot">
+      <span class="price">189,000₮</span>
+      <button class="add" data-id="2">Сагслах</button>
+    </div>
+  </div>
+  <div class="card arsenal-card fx-fade shown" style="transition-delay: 0.12s;">
+    <div class="card-armor-line"></div>
+    <span class="card-icon">🎧</span>
+    <div class="card-tag">// COMMS SYSTEM</div>
+    <div class="card-name">Headset</div>
+    <div class="card-desc">JARVIS-тай холбоо барих мэт — дайсны хөлийн дуу сонс, team-дээ тодорхой ярь.</div>
+    <div class="card-spec">
+      <div class="spec-item">7.1 Surround Sound</div><div class="spec-item">Noise Cancel Mic</div><div class="spec-item">Wireless / Wired</div><div class="spec-item">40hr Battery Life</div>
+    </div>
+    <div class="brand-line">Logitech G · HyperX · Razer</div>
+    <div class="arsenal-foot">
+      <span class="price">165,000₮</span>
+      <button class="add" data-id="3">Сагслах</button>
+    </div>
+  </div>
+  <div class="card arsenal-card fx-fade shown" style="transition-delay: 0.18s;">
+    <div class="card-armor-line"></div>
+    <span class="card-icon">🎯</span>
+    <div class="card-tag">// LAUNCH PAD</div>
+    <div class="card-name">Mousepad XXL</div>
+    <div class="card-desc">Нисэх талбай шиг том — low DPI ч, high DPI ч хязгааргүй хөдлөнө.</div>
+    <div class="card-spec">
+      <div class="spec-item">XXL / XL / L / M</div><div class="spec-item">Micro-Woven Surface</div><div class="spec-item">Anti-Slip Base</div><div class="spec-item">Stitched Edges</div>
+    </div>
+    <div class="brand-line">SteelSeries · Glorious · Corsair</div>
+    <div class="arsenal-foot">
+      <span class="price">45,000₮</span>
+      <button class="add" data-id="4">Сагслах</button>
+    </div>
+  </div>
+  <div class="card arsenal-card fx-fade shown" style="transition-delay: 0s;">
+    <div class="card-armor-line"></div>
+    <span class="card-icon">🖥️</span>
+    <div class="card-tag">// HUD MOUNT</div>
+    <div class="card-name">Monitor Arm</div>
+    <div class="card-desc">HUD шиг дэлгэцийг яг өөрт тохируулж байрлуул — ergonomic, цэвэрхэн setup.</div>
+    <div class="card-spec">
+      <div class="spec-item">360° Full Rotation</div><div class="spec-item">Up to 32" Monitor</div><div class="spec-item">Cable Management</div><div class="spec-item">VESA Compatible</div>
+    </div>
+    <div class="brand-line">ASUS · Ergotron · Brateck</div>
+    <div class="arsenal-foot">
+      <span class="price">60,000₮</span>
+      <button class="add" data-id="5">Сагслах</button>
+    </div>
+  </div></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <a href="https://gghubmn.netlify.app/#top" class="brand" style="margin-bottom:16px"><span class="gg">GG</span> Hub</a>
+        <p style="margin-top:14px">Монголын геймерүүдэд зориулсан тоглоомын тоног төхөөрөмжийн дэлгүүр.</p>
+        <div class="socials">
+          <a href="https://gghubmn.netlify.app/#" aria-label="Facebook"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M13 22v-8h2.7l.4-3H13V9c0-.9.3-1.5 1.6-1.5H16V4.8c-.3 0-1.3-.1-2.4-.1-2.4 0-4 1.4-4 4.1V11H7v3h2.6v8H13z"></path></svg></a>
+          <a href="https://gghubmn.netlify.app/#" aria-label="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"></circle></svg></a>
+          <a href="https://gghubmn.netlify.app/#" aria-label="YouTube"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M22 8.2a3 3 0 0 0-2.1-2.1C18 5.6 12 5.6 12 5.6s-6 0-7.9.5A3 3 0 0 0 2 8.2 31 31 0 0 0 1.6 12 31 31 0 0 0 2 15.8a3 3 0 0 0 2.1 2.1c1.9.5 7.9.5 7.9.5s6 0 7.9-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 22.4 12 31 31 0 0 0 22 8.2zM10 15V9l5.2 3L10 15z"></path></svg></a>
+        </div>
+      </div>
+      <div>
+        <h4>Холбоо барих</h4>
+        <ul>
+          <li>📞 +976 89448934</li>
+          <li>✉ info@gghub.mn</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Цагийн хуваарь</h4>
+        <ul>
+          <li>Даваа–Баасан: 09:00–21:00</li>
+          <li>Бямба-Ням: 10:00–20:00</li>
+        </ul>
+      </div>
+    </div>
+    <div class="copy">© 2026 <b>GG Hub</b> — Бүх эрх хуулиар хамгаалагдсан.</div>
+  </div>
+</footer>
+
+<!-- CART -->
+<div class="overlay" id="overlay"></div>
+<aside class="cart" id="cart" aria-label="Сагс">
+  <div class="cart-head">
+    <h3>Миний <b>сагс</b></h3>
+    <button class="close" id="closeCart">✕</button>
+  </div>
+  <div class="items" id="items"><div class="empty">
+      <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#00d4ff" stroke-width="1.3"><circle cx="9" cy="20" r="1.4"></circle><circle cx="18" cy="20" r="1.4"></circle><path d="M2 3h2.5l2.3 12.5a1.5 1.5 0 0 0 1.5 1.2h8.6a1.5 1.5 0 0 0 1.5-1.2L21 7H6"></path></svg>
+      <div>Таны сагс хоосон байна.<br>Дуртай төхөөрөмжөө нэмээрэй!</div></div></div>
+  <div class="cart-foot">
+    <div class="total"><span>Нийт дүн:</span><b id="total">0₮</b></div>
+    <button class="btn checkout" id="checkout">Захиалга баталгаажуулах</button>
+  </div>
+</aside>
+
+<script>
+// ---- tint colors per category (cart mini icon background) ----
+const TINT = {mouse:'rgba(45,255,163,.12)',keyboard:'rgba(0,212,255,.12)',headset:'rgba(45,255,163,.12)',monitor:'rgba(0,212,255,.12)',pad:'rgba(45,255,163,.12)'};
+
+// ---- arsenal product data ----
+const products = [
+  {id:1,type:'mouse',icon:'🖱️',tag:'// PRIMARY WEAPON',name:'Gaming Mouse',
+   desc:'Нарийн мэдрэмж, хурдан click — aim чинь хэзээ ч алдагдахгүй. Repulsor blast шиг нарийн.',
+   specs:['25,600 DPI Max Sensor','2000Hz Polling Rate','Wireless + Wired','61g Ultra Light'],
+   brand:'Logitech · Razer · Pulsar',price:350000},
+  {id:2,type:'keyboard',icon:'⌨️',tag:'// BATTLE INTERFACE',name:'Keyboard',
+   desc:'Mechanical switch бүрийн click — armor сегмент lock хийх мэт тодорхой мэдрэмж.',
+   specs:['Mechanical Switches','TKL / Full Size','RGB Backlighting','Anti-Ghosting'],
+   brand:'SteelSeries · HyperX · Corsair',price:189000},
+  {id:3,type:'headset',icon:'🎧',tag:'// COMMS SYSTEM',name:'Headset',
+   desc:'JARVIS-тай холбоо барих мэт — дайсны хөлийн дуу сонс, team-дээ тодорхой ярь.',
+   specs:['7.1 Surround Sound','Noise Cancel Mic','Wireless / Wired','40hr Battery Life'],
+   brand:'Logitech G · HyperX · Razer',price:165000},
+  {id:4,type:'pad',icon:'🎯',tag:'// LAUNCH PAD',name:'Mousepad XXL',
+   desc:'Нисэх талбай шиг том — low DPI ч, high DPI ч хязгааргүй хөдлөнө.',
+   specs:['XXL / XL / L / M','Micro-Woven Surface','Anti-Slip Base','Stitched Edges'],
+   brand:'SteelSeries · Glorious · Corsair',price:45000},
+  {id:5,type:'monitor',icon:'🖥️',tag:'// HUD MOUNT',name:'Monitor Arm',
+   desc:'HUD шиг дэлгэцийг яг өөрт тохируулж байрлуул — ergonomic, цэвэрхэн setup.',
+   specs:['360° Full Rotation','Up to 32" Monitor','Cable Management','VESA Compatible'],
+   brand:'ASUS · Ergotron · Brateck',price:60000}
+];
+
+const fmt = n => n.toLocaleString('en-US') + '₮';
+
+// ---- render arsenal grid ----
+document.getElementById('arsenalGrid').innerHTML = products.map(p=>`
+  <div class="card arsenal-card">
+    <div class="card-armor-line"></div>
+    <span class="card-icon">${p.icon}</span>
+    <div class="card-tag">${p.tag}</div>
+    <div class="card-name">${p.name}</div>
+    <div class="card-desc">${p.desc}</div>
+    <div class="card-spec">
+      ${p.specs.map(s=>`<div class="spec-item">${s}</div>`).join('')}
+    </div>
+    <div class="brand-line">${p.brand}</div>
+    <div class="arsenal-foot">
+      <span class="price">${fmt(p.price)}</span>
+      <button class="add" data-id="${p.id}">Сагслах</button>
+    </div>
+  </div>`).join('');
+
+const ALL = [...products];
+
+// ---- cart logic ----
+const CART_KEY = 'gghub_cart';
+let cart = (()=>{ try{ return JSON.parse(localStorage.getItem(CART_KEY)) || []; }catch(e){ return []; } })();
+const itemsEl = document.getElementById('items');
+const countEl = document.getElementById('count');
+const totalEl = document.getElementById('total');
+
+function addToCart(id){
+  const found = cart.find(i=>i.id===id);
+  if(found){found.qty++;}
+  else{const p = ALL.find(x=>x.id===id); cart.push({...p,qty:1});}
+  render();
+  openCart();
+}
+function changeQty(id,d){
+  const it = cart.find(i=>i.id===id);
+  if(!it)return;
+  it.qty += d;
+  if(it.qty<=0) cart = cart.filter(i=>i.id!==id);
+  render();
+}
+function removeItem(id){cart = cart.filter(i=>i.id!==id); render();}
+
+function render(){
+  const totalQty = cart.reduce((s,i)=>s+i.qty,0);
+  countEl.textContent = totalQty;
+  countEl.classList.toggle('show', totalQty>0);
+
+  if(cart.length===0){
+    itemsEl.innerHTML = `<div class="empty">
+      <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#00d4ff" stroke-width="1.3"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2 3h2.5l2.3 12.5a1.5 1.5 0 0 0 1.5 1.2h8.6a1.5 1.5 0 0 0 1.5-1.2L21 7H6"/></svg>
+      <div>Таны сагс хоосон байна.<br>Дуртай төхөөрөмжөө нэмээрэй!</div></div>`;
+  } else {
+    itemsEl.innerHTML = cart.map(i=>`
+      <div class="ci">
+        <div class="mini" style="background:${TINT[i.type]}">${i.icon}</div>
+        <div class="ci-info">
+          <h4>${i.name}</h4>
+          <div class="p">${fmt(i.price)}</div>
+          <div class="qty">
+            <button onclick="changeQty(${i.id},-1)">−</button>
+            <span>${i.qty}</span>
+            <button onclick="changeQty(${i.id},1)">+</button>
+          </div>
+        </div>
+        <button class="rm" onclick="removeItem(${i.id})">Устгах</button>
+      </div>`).join('');
+  }
+  const total = cart.reduce((s,i)=>s+i.price*i.qty,0);
+  totalEl.textContent = fmt(total);
+  localStorage.setItem(CART_KEY, JSON.stringify(cart));
+}
+
+// ---- events ----
+document.addEventListener('click', e=>{
+  if(e.target.classList.contains('add')){
+    addToCart(+e.target.dataset.id);
+    e.target.textContent = '✓ Нэмэгдлээ';
+    setTimeout(()=>e.target.textContent='Сагслах',900);
+  }
+});
+
+const overlay = document.getElementById('overlay');
+const cartEl = document.getElementById('cart');
+function openCart(){cartEl.classList.add('open');overlay.classList.add('open');document.body.classList.add('no-scroll');}
+function closeCart(){cartEl.classList.remove('open');overlay.classList.remove('open');document.body.classList.remove('no-scroll');}
+document.getElementById('openCart').onclick = openCart;
+document.getElementById('closeCart').onclick = closeCart;
+overlay.onclick = closeCart;
+document.getElementById('checkout').onclick = ()=>{
+  if(cart.length===0){alert('Таны сагс хоосон байна.');return;}
+  alert('Баярлалаа! Захиалга амжилттай. 🎮');
+  cart=[];render();closeCart();
+};
+
+// ---- mobile nav ----
+const nav = document.getElementById('nav');
+document.getElementById('burger').onclick = ()=>nav.classList.toggle('open');
+nav.querySelectorAll('a').forEach(a=>a.onclick=()=>nav.classList.remove('open'));
+
+// ---- hero slider ----
+const slides = document.querySelectorAll('.slide');
+const dotsBox = document.getElementById('dots');
+let cur = 0;
+slides.forEach((_,i)=>{
+  const b = document.createElement('button');
+  if(i===0) b.classList.add('active');
+  b.onclick = ()=>goto(i);
+  dotsBox.appendChild(b);
+});
+const dots = dotsBox.querySelectorAll('button');
+function goto(i){
+  slides[cur].classList.remove('active');
+  dots[cur].classList.remove('active');
+  cur = i;
+  slides[cur].classList.add('active');
+  dots[cur].classList.add('active');
+  // re-trigger entrance animation
+  const r = slides[cur].querySelector('.reveal');
+  r.style.animation='none'; void r.offsetWidth; r.style.animation='';
+}
+setInterval(()=>goto((cur+1)%slides.length), 5000);
+
+render();
+
+// ---- IRON-MAN FX ----
+(function(){
+  const fine = window.matchMedia('(min-width:781px)').matches
+            && window.matchMedia('(pointer:fine)').matches;
+
+  // custom cursor (lags slightly behind dot — JARVIS feel)
+  const cur = document.getElementById('cursor');
+  const cdot = document.getElementById('cursor-dot');
+  if(fine){
+    let mx=innerWidth/2, my=innerHeight/2, cx=mx, cy=my;
+    addEventListener('mousemove', e=>{
+      mx=e.clientX; my=e.clientY;
+      cdot.style.left=mx+'px'; cdot.style.top=my+'px';
+    });
+    (function loop(){
+      cx+=(mx-cx)*.18; cy+=(my-cy)*.18;
+      cur.style.left=cx+'px'; cur.style.top=cy+'px';
+      requestAnimationFrame(loop);
+    })();
+    document.querySelectorAll('a,button').forEach(el=>{
+      el.addEventListener('mouseenter',()=>{
+        cur.style.width='40px'; cur.style.height='40px';
+        cur.style.borderColor='var(--blue)'; cur.style.background='rgba(0,212,255,.06)';
+      });
+      el.addEventListener('mouseleave',()=>{
+        cur.style.width=''; cur.style.height='';
+        cur.style.borderColor='var(--neon)'; cur.style.background='';
+      });
+    });
+  } else {
+    document.body.style.cursor='auto';
+  }
+
+  // floating particles
+  const pc = document.getElementById('particles');
+  if(pc){
+    const n = fine ? 28 : 12;
+    for(let i=0;i<n;i++){
+      const p=document.createElement('div');
+      p.className='particle';
+      p.style.left=Math.random()*100+'vw';
+      p.style.animationDuration=(7+Math.random()*14)+'s';
+      p.style.animationDelay=(Math.random()*12)+'s';
+      p.style.setProperty('--dx',(Math.random()*200-100)+'px');
+      p.style.background=Math.random()>.5?'var(--neon)':'var(--blue)';
+      const s=Math.random()*2+1;
+      p.style.width=p.style.height=s+'px';
+      pc.appendChild(p);
+    }
+  }
+
+  // HUD clock + power flicker
+  const ht=document.getElementById('hudTime');
+  const hs=document.getElementById('hudSys');
+  function tick(){
+    const t=new Date().toTimeString().slice(0,8);
+    if(ht) ht.innerHTML='JARVIS v9.3.1<br>'+t;
+  }
+  setInterval(tick,1000); tick();
+  setInterval(()=>{
+    if(hs) hs.innerHTML='SYS: ONLINE<br>POWER: '+(98+Math.random()*2).toFixed(1)+'%<br>GG-HUB: MK-VII';
+  },2000);
+
+  // scroll reveal
+  document.querySelectorAll('.head').forEach(el=>el.classList.add('fx-reveal'));
+  document.querySelectorAll('.card').forEach((el,i)=>{
+    el.classList.add('fx-fade');
+    el.style.transitionDelay=(i%4*0.06)+'s';
+  });
+  const io=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('shown'); io.unobserve(e.target); }
+    });
+  },{threshold:.12,rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.fx-reveal,.fx-fade').forEach(el=>io.observe(el));
+
+  // 3D card tilt
+  if(fine){
+    document.querySelectorAll('.card').forEach(card=>{
+      card.addEventListener('mousemove',e=>{
+        const r=card.getBoundingClientRect();
+        const x=(e.clientX-r.left)/r.width-.5;
+        const y=(e.clientY-r.top)/r.height-.5;
+        card.style.transform=`translateY(-10px) rotateX(${-y*7}deg) rotateY(${x*7}deg)`;
+      });
+      card.addEventListener('mouseleave',()=>{ card.style.transform=''; });
+    });
+  }
+})();
+</script>
+
+
+</body></html>
